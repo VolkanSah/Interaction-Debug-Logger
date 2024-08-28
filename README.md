@@ -21,11 +21,11 @@
 1. Download the plugin and unzip it.
 2. Upload the `interaction-debug-logger` directory to your `/wp-content/plugins/` directory.
 3. Activate the plugin through the 'Plugins' menu in WordPress.
-4. Go to `Tools > Interaction & Debug Logger` to configure the settings.
+4. Go to `Tools > Interaction Logger` to configure the settings.
 
 ## Usage
 
-- **Enable Logging:** Navigate to the plugin's settings page under `Tools > Interaction & Debug Logger` and enable logging.
+- **Enable Logging:** Navigate to the plugin's settings page under `Tools > Interaction Logger` and enable logging.
 - **Set Refresh Interval:** Adjust the refresh interval to control how often the logs update in the console.
 - **View Logs:** Interact with your site as usual, and watch the logs appear in the expandable console at the bottom of the screen.
 - **Clear Logs:** Use the "Clear Log" button in the console to reset the logs.

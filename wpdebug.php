@@ -2,8 +2,8 @@
 /*
 Plugin Name: Advanced Debug Logger
 Description: Real-time debug logging with expandable console
-Version: 2.1
-Author: 
+Version: 2.2
+Author: Your Name
 */
 
 // Funktion zum Loggen der Anfragen
@@ -37,6 +37,9 @@ add_action('admin_menu', 'adv_debug_logger_add_admin_menu');
 // Funktion zum Registrieren der Einstellungen
 function adv_debug_logger_settings_init() {
     register_setting('adv_debug_logger', 'adv_debug_logger_enabled');
+    register_setting('adv_debug_logger', 'adv_debug_logger_refresh_interval', [
+        'default' => 1000,
+    ]);
 }
 add_action('admin_init', 'adv_debug_logger_settings_init');
 
@@ -55,6 +58,10 @@ function adv_debug_logger_page() {
                     <th scope="row">Enable Debug Logging</th>
                     <td><input type="checkbox" name="adv_debug_logger_enabled" value="1" <?php checked('1', get_option('adv_debug_logger_enabled')); ?> /></td>
                 </tr>
+                <tr valign="top">
+                    <th scope="row">Refresh Interval (milliseconds)</th>
+                    <td><input type="number" name="adv_debug_logger_refresh_interval" value="<?php echo esc_attr(get_option('adv_debug_logger_refresh_interval', '1000')); ?>" min="100" step="100" /></td>
+                </tr>
             </table>
             <?php submit_button('Save Settings'); ?>
         </form>
@@ -66,6 +73,8 @@ function adv_debug_logger_page() {
 
     <script>
     jQuery(document).ready(function($) {
+        var refreshInterval = <?php echo intval(get_option('adv_debug_logger_refresh_interval', '1000')); ?>;
+
         function refreshLogContent() {
             $.ajax({
                 url: ajaxurl,
@@ -76,7 +85,7 @@ function adv_debug_logger_page() {
             });
         }
 
-        setInterval(refreshLogContent, 1000); // Aktualisiere jede Sekunde
+        setInterval(refreshLogContent, refreshInterval);
 
         $('#clean-log').click(function() {
             if (confirm('Are you sure you want to clean the log?')) {
@@ -119,12 +128,15 @@ add_action('wp_ajax_clean_debug_log', 'adv_debug_logger_clean_log');
 // Funktion zum Hinzufügen der Debug-Konsole im Footer
 function adv_debug_logger_add_console() {
     if (current_user_can('manage_options') && get_option('adv_debug_logger_enabled', '0') === '1') {
+        $refresh_interval = intval(get_option('adv_debug_logger_refresh_interval', '1000'));
         ?>
         <div id="debug-console" style="position:fixed; bottom:0; left:0; right:0; height:30px; background:#f1f1f1; border-top:1px solid #ccc; overflow:hidden; transition:height 0.3s; z-index: 9999;">
             <div style="padding:5px; cursor:pointer; background:#e1e1e1; text-align:center;" onclick="toggleConsole()">Debug Console (Click to expand)</div>
             <div id="debug-console-content" style="padding:10px; height:calc(100% - 30px); overflow:auto; display:none;"></div>
         </div>
         <script>
+        var refreshInterval = <?php echo $refresh_interval; ?>;
+
         function toggleConsole() {
             var console = document.getElementById('debug-console');
             var content = document.getElementById('debug-console-content');
@@ -147,7 +159,7 @@ function adv_debug_logger_add_console() {
             });
         }
 
-        setInterval(refreshConsoleContent, 1000); // Aktualisiere jede Sekunde
+        setInterval(refreshConsoleContent, refreshInterval);
         </script>
         <?php
     }

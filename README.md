@@ -6,7 +6,7 @@
 
 ## Description
 
-**Interaction & Debug Logger** is a powerful WordPress plugin that allows real-time logging of user interactions and debug information. With an expandable console and an intuitive interface, this plugin is an essential tool for developers who want to monitor and analyze site activity directly from the WordPress dashboard.
+**Interaction & Debug Logger** is a powerful WordPress plugin that allows real-time logging of user interactions and debug information. With an expandable console and an intuitive interface, this plugin is an essential tool for developers who want to monitor and analyze site activity directly from everywhere on your Wordpress site.
 
 ## Features
 
@@ -15,8 +15,7 @@
 - **Customizable Refresh Interval:** Set the refresh interval to control how frequently the logs are updated.
 - **Clear Log Button:** Instantly clear the logs from the console and start fresh.
 - **Filtered Logging:** Automatically exclude unnecessary logs, such as AJAX requests, to keep your logs clean and relevant.
-- **Admin Dashboard Integration:** View and manage logs directly from the WordPress admin panel.
-
+- **Admin Dashboard Integration:** View and manage logs directly from your site where you are :smile:
 ## Installation
 
 1. Download the plugin and unzip it.

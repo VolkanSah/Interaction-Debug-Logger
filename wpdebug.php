@@ -2,7 +2,7 @@
 /*
 Plugin Name: Advanced Debug Logger
 Description: Real-time debug logging with expandable console
-Version: 2.2
+Version: 2.4
 Author: Your Name
 */
 
@@ -15,9 +15,11 @@ function log_wordpress_requests() {
         $request_method = $_SERVER['REQUEST_METHOD'];
         $user_ip = $_SERVER['REMOTE_ADDR'];
 
-        $log_message = "$current_time | $request_method | $request_uri | $user_ip\n";
-
-        file_put_contents($log_file, $log_message, FILE_APPEND);
+        // Filtern von admin-ajax.php Anfragen, um unnötige Logs zu vermeiden
+        if (strpos($request_uri, 'admin-ajax.php') === false) {
+            $log_message = "$current_time | $request_method | $request_uri | $user_ip\n";
+            file_put_contents($log_file, $log_message, FILE_APPEND);
+        }
     }
 }
 add_action('init', 'log_wordpress_requests');
@@ -68,7 +70,7 @@ function adv_debug_logger_page() {
 
         <h2>Debug Log</h2>
         <button id="clean-log" class="button button-secondary">Clean Log</button>
-        <div id="debug-log-content"></div>
+        <div id="debug-log-content" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
     </div>
 
     <script>
@@ -132,7 +134,10 @@ function adv_debug_logger_add_console() {
         ?>
         <div id="debug-console" style="position:fixed; bottom:0; left:0; right:0; height:30px; background:#f1f1f1; border-top:1px solid #ccc; overflow:hidden; transition:height 0.3s; z-index: 9999;">
             <div style="padding:5px; cursor:pointer; background:#e1e1e1; text-align:center;" onclick="toggleConsole()">Debug Console (Click to expand)</div>
-            <div id="debug-console-content" style="padding:10px; height:calc(100% - 30px); overflow:auto; display:none;"></div>
+            <div id="debug-console-content" style="padding:10px; height:calc(100% - 30px); overflow:auto; display:none;">
+                <button id="clear-log-console" style="font-size: 10px; margin-bottom: 5px; position:sticky; top:0; background:#e1e1e1; padding:5px; border:1px solid #ccc;">Clear Log</button>
+                <div id="log-content" style="max-height: 250px; overflow-y: auto;"></div>
+            </div>
         </div>
         <script>
         var refreshInterval = <?php echo $refresh_interval; ?>;
@@ -154,12 +159,26 @@ function adv_debug_logger_add_console() {
                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
                 data: { action: 'refresh_debug_log' },
                 success: function(response) {
-                    jQuery('#debug-console-content').html(response);
+                    jQuery('#log-content').html(response);
                 }
             });
         }
 
         setInterval(refreshConsoleContent, refreshInterval);
+
+        jQuery(document).ready(function($) {
+            $('#clear-log-console').click(function() {
+                if (confirm('Are you sure you want to clear the log?')) {
+                    $.ajax({
+                        url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                        data: { action: 'clean_debug_log' },
+                        success: function() {
+                            refreshConsoleContent();
+                        }
+                    });
+                }
+            });
+        });
         </script>
         <?php
     }

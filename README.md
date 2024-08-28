@@ -38,8 +38,6 @@
 ### 2. Expandable Console
 ![Expandable Console](screenshots/expandable-console.png)
 
-### 3. Real-time Logging
-![Real-time Logging](screenshots/real-time-logging.png)
 
 ## Changelog
 

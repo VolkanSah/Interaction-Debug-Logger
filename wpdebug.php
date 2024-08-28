@@ -1,14 +1,14 @@
 <?php
 /*
-Plugin Name: My Debug Logger
-Description: Logs all WordPress requests with an option page, auto-refresh, and log cleaner
-Version: 1.2
-Author: Your Name
+Plugin Name: Advanced Debug Logger
+Description: Real-time debug logging with expandable console
+Version: 2.1
+Author: 
 */
 
 // Funktion zum Loggen der Anfragen
 function log_wordpress_requests() {
-    if (get_option('my_debug_logger_enabled', '0') === '1') {
+    if (get_option('adv_debug_logger_enabled', '0') === '1') {
         $log_file = WP_CONTENT_DIR . '/debug-log.txt';
         $current_time = current_time('mysql');
         $request_uri = $_SERVER['REQUEST_URI'];
@@ -20,106 +20,146 @@ function log_wordpress_requests() {
         file_put_contents($log_file, $log_message, FILE_APPEND);
     }
 }
-
 add_action('init', 'log_wordpress_requests');
 
 // Funktion zum Hinzufügen des Menüeintrags unter Tools
-function my_debug_logger_add_admin_menu() {
-    add_management_page('My Debug Logger', 'My Debug Logger', 'manage_options', 'my-debug-logger', 'my_debug_logger_page');
+function adv_debug_logger_add_admin_menu() {
+    add_management_page(
+        'Advanced Debug Logger', 
+        'Adv Debug Logger', 
+        'manage_options', 
+        'adv-debug-logger', 
+        'adv_debug_logger_page'
+    );
 }
-
-add_action('admin_menu', 'my_debug_logger_add_admin_menu');
+add_action('admin_menu', 'adv_debug_logger_add_admin_menu');
 
 // Funktion zum Registrieren der Einstellungen
-function my_debug_logger_settings_init() {
-    register_setting('my_debug_logger', 'my_debug_logger_enabled');
-    register_setting('my_debug_logger', 'my_debug_logger_refresh_interval');
+function adv_debug_logger_settings_init() {
+    register_setting('adv_debug_logger', 'adv_debug_logger_enabled');
 }
-
-add_action('admin_init', 'my_debug_logger_settings_init');
+add_action('admin_init', 'adv_debug_logger_settings_init');
 
 // Funktion zur Darstellung der Plugin-Seite
-function my_debug_logger_page() {
-    // Handle log cleaning
-    if (isset($_POST['clean_log'])) {
-        $log_file = WP_CONTENT_DIR . '/debug-log.txt';
-        file_put_contents($log_file, '');
-        echo '<div class="updated"><p>Log file cleaned.</p></div>';
-    }
-
+function adv_debug_logger_page() {
     ?>
     <div class="wrap">
-        <h1>My Debug Logger</h1>
+        <h1>Advanced Debug Logger</h1>
         <form method="post" action="options.php">
             <?php
-            settings_fields('my_debug_logger');
-            do_settings_sections('my_debug_logger');
+            settings_fields('adv_debug_logger');
+            do_settings_sections('adv_debug_logger');
             ?>
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row">Enable Debug Logging</th>
-                    <td><input type="checkbox" name="my_debug_logger_enabled" value="1" <?php checked('1', get_option('my_debug_logger_enabled')); ?> /></td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row">Auto-refresh Interval (seconds)</th>
-                    <td><input type="number" name="my_debug_logger_refresh_interval" value="<?php echo esc_attr(get_option('my_debug_logger_refresh_interval', '30')); ?>" min="0" /></td>
+                    <td><input type="checkbox" name="adv_debug_logger_enabled" value="1" <?php checked('1', get_option('adv_debug_logger_enabled')); ?> /></td>
                 </tr>
             </table>
             <?php submit_button('Save Settings'); ?>
         </form>
 
         <h2>Debug Log</h2>
-        <form method="post">
-            <input type="submit" name="clean_log" value="Clean Log" class="button button-secondary" onclick="return confirm('Are you sure you want to clean the log?');" />
-        </form>
-        <div id="debug-log-content">
-            <?php echo my_debug_logger_get_log_content(); ?>
-        </div>
+        <button id="clean-log" class="button button-secondary">Clean Log</button>
+        <div id="debug-log-content"></div>
     </div>
 
     <script>
-<script>
-    function refreshLogContent() {
-        jQuery.get(ajaxurl, {
-            action: 'refresh_debug_log'
-        }, function(response) {
-            jQuery('#debug-log-content').html(response);
-        });
-    }
-
     jQuery(document).ready(function($) {
-        var refreshInterval = <?php echo intval(get_option('my_debug_logger_refresh_interval', '30')) * 1000; ?>;
-        if (refreshInterval > 0) {
-            setInterval(refreshLogContent, refreshInterval);
+        function refreshLogContent() {
+            $.ajax({
+                url: ajaxurl,
+                data: { action: 'refresh_debug_log' },
+                success: function(response) {
+                    $('#debug-log-content').html(response);
+                }
+            });
         }
+
+        setInterval(refreshLogContent, 1000); // Aktualisiere jede Sekunde
+
+        $('#clean-log').click(function() {
+            if (confirm('Are you sure you want to clean the log?')) {
+                $.ajax({
+                    url: ajaxurl,
+                    data: { action: 'clean_debug_log' },
+                    success: function() {
+                        refreshLogContent();
+                    }
+                });
+            }
+        });
     });
     </script>
     <?php
 }
+add_action('admin_menu', 'adv_debug_logger_add_admin_menu');
 
-// Funktion zum Abrufen des Log-Inhalts
-function my_debug_logger_get_log_content() {
+// AJAX-Handler für das Aktualisieren des Log-Inhalts
+function adv_debug_logger_refresh_log() {
     $log_file = WP_CONTENT_DIR . '/debug-log.txt';
     if (file_exists($log_file)) {
         $log_content = file_get_contents($log_file);
-        return '<pre>' . esc_html($log_content) . '</pre>';
+        echo '<pre>' . esc_html($log_content) . '</pre>';
     } else {
-        return '<p>No log file found.</p>';
+        echo '<p>No log file found.</p>';
     }
-}
-
-// AJAX-Handler für das Aktualisieren des Log-Inhalts
-function my_debug_logger_refresh_log() {
-    echo my_debug_logger_get_log_content();
     wp_die();
 }
-add_action('wp_ajax_refresh_debug_log', 'my_debug_logger_refresh_log');
+add_action('wp_ajax_refresh_debug_log', 'adv_debug_logger_refresh_log');
+
+// AJAX-Handler für das Säubern des Logs
+function adv_debug_logger_clean_log() {
+    $log_file = WP_CONTENT_DIR . '/debug-log.txt';
+    file_put_contents($log_file, '');
+    wp_die();
+}
+add_action('wp_ajax_clean_debug_log', 'adv_debug_logger_clean_log');
+
+// Funktion zum Hinzufügen der Debug-Konsole im Footer
+function adv_debug_logger_add_console() {
+    if (current_user_can('manage_options') && get_option('adv_debug_logger_enabled', '0') === '1') {
+        ?>
+        <div id="debug-console" style="position:fixed; bottom:0; left:0; right:0; height:30px; background:#f1f1f1; border-top:1px solid #ccc; overflow:hidden; transition:height 0.3s; z-index: 9999;">
+            <div style="padding:5px; cursor:pointer; background:#e1e1e1; text-align:center;" onclick="toggleConsole()">Debug Console (Click to expand)</div>
+            <div id="debug-console-content" style="padding:10px; height:calc(100% - 30px); overflow:auto; display:none;"></div>
+        </div>
+        <script>
+        function toggleConsole() {
+            var console = document.getElementById('debug-console');
+            var content = document.getElementById('debug-console-content');
+            if (console.style.height === '30px') {
+                console.style.height = '300px';
+                content.style.display = 'block';
+            } else {
+                console.style.height = '30px';
+                content.style.display = 'none';
+            }
+        }
+
+        function refreshConsoleContent() {
+            jQuery.ajax({
+                url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                data: { action: 'refresh_debug_log' },
+                success: function(response) {
+                    jQuery('#debug-console-content').html(response);
+                }
+            });
+        }
+
+        setInterval(refreshConsoleContent, 1000); // Aktualisiere jede Sekunde
+        </script>
+        <?php
+    }
+}
+add_action('wp_footer', 'adv_debug_logger_add_console');
+add_action('admin_footer', 'adv_debug_logger_add_console');
 
 // Funktion zum Hinzufügen von Admin-Skripten
-function my_debug_logger_enqueue_admin_scripts($hook) {
-    if ('tools_page_my-debug-logger' !== $hook) {
+function adv_debug_logger_enqueue_admin_scripts($hook) {
+    if ('tools_page_adv-debug-logger' !== $hook) {
         return;
     }
     wp_enqueue_script('jquery');
 }
-add_action('admin_enqueue_scripts', 'my_debug_logger_enqueue_admin_scripts');
+add_action('admin_enqueue_scripts', 'adv_debug_logger_enqueue_admin_scripts');

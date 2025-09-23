@@ -3,661 +3,640 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Interaction & Debug Logger Pro | WordPress Developer Tool</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <title>Enhanced Interaction & Debug Logger Pro | Developer Tool</title>
     <style>
-            #noscript-alert {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #dc3545;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            z-index: 1000;
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --color-bg-dark: #0f172a;
+            --color-bg-card: #1f2937;
+            --color-bg-console: rgba(15, 23, 42, 0.8);
+            --color-text-main: #e2e8f0;
+            --color-text-light: #94a3b8;
+            --color-primary: #3b82f6;
+            --color-secondary: #8b5cf6;
+            --color-border-subtle: rgba(59, 130, 246, 0.2);
+            --color-red: #ef4444;
+            --color-yellow: #f59e0b;
+            --color-green: #22c55e;
+            --color-blue: #3b82f6;
+            --color-purple: #8b5cf6;
+            --color-indigo: #6366f1;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
 
-
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-main);
+            margin: 0;
+            line-height: 1.6;
         }
+
         .code-font {
             font-family: 'Fira Code', monospace;
         }
+
         .gradient-text {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .globe-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
+
+        .container {
+            max-width: 1280px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04);
+
+        .max-w-85-percent {
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .console-effect {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+
+        .flex-center {
+            display: flex;
+            align-items: center;
         }
-        .copy-btn {
-            transition: all 0.2s ease;
-        }
-        .copy-btn:hover {
-            background-color: #1e40af;
-        }
-        .tab-active {
-            border-bottom: 2px solid #3b82f6;
-            color: #3b82f6;
-        }
-        .modal {
-            background-color: rgba(0, 0, 0, 0.85);
+
+        .header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
-        .lazy-img {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
         }
-        .lazy-img.loaded {
-            opacity: 1;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--color-text-light);
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--color-text-main);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-secondary {
+            background-color: #1f2937;
+            color: var(--color-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #374151;
+        }
+
+        .hero {
+            padding: 4rem 0 4rem 0; /* Reduced padding-bottom */
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .hero p {
+            max-width: 48rem;
+            margin: 1rem auto 2rem auto;
+            font-size: 1.125rem;
+            color: var(--color-text-light);
+        }
+
+        .section {
+            padding: 3rem 0; /* Reduced padding */
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem; /* Reduced margin */
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            text-align: center;
+            color: var(--color-text-light);
+            margin-bottom: 2rem; /* Reduced margin */
+        }
+
+        .grid-3-cols {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-3-cols {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-3-cols {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .card {
+            background-color: var(--color-bg-card);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1), 0 4px 6px -2px rgba(59, 130, 246, 0.05);
+        }
+
+        .card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            margin: 0;
+        }
+
+        .icon-wrapper {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.375rem;
+            color: white;
+        }
+
+        .icon-wrapper svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .bg-blue { background-color: rgba(59, 130, 246, 0.2); color: var(--color-primary); }
+        .bg-purple { background-color: rgba(139, 92, 246, 0.2); color: var(--color-secondary); }
+        .bg-green { background-color: rgba(34, 197, 94, 0.2); color: var(--color-green); }
+        .bg-yellow { background-color: rgba(245, 158, 11, 0.2); color: var(--color-yellow); }
+        .bg-red { background-color: rgba(239, 68, 68, 0.2); color: var(--color-red); }
+        .bg-indigo { background-color: rgba(99, 102, 241, 0.2); color: var(--color-indigo); }
+
+        .console-mockup {
+            background: var(--color-bg-console);
+            border: 1px solid var(--color-border-subtle);
+            box-shadow: 0 0 15px var(--color-border-subtle);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .console-header {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .console-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .console-button {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+        }
+
+        .console-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .console-tab {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-light);
+            text-decoration: none;
+            padding-bottom: 0.25rem;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .console-tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .console-tools {
+            display: flex;
+            gap: 0.75rem;
+            margin-left: auto;
+        }
+
+        .console-tools button {
+            background: none;
+            border: none;
+            color: var(--color-text-light);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .console-tools button:hover {
+            color: var(--color-text-main);
+        }
+
+        .console-log {
+            padding: 1rem;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+
+        .log-line {
+            white-space: pre-wrap;
+        }
+
+        .log-info { color: var(--color-green); }
+        .log-warn { color: var(--color-yellow); }
+        .log-error { color: var(--color-red); }
+        .log-debug { color: var(--color-primary); }
+        .log-notice { color: var(--color-text-light); }
+
+        .code-block {
+            background-color: rgba(31, 41, 55, 0.8);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .code-block code {
+            display: block;
+            overflow-x: auto;
+            color: var(--color-text-light);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: #2563eb;
+        }
+
+        .footer {
+            background-color: var(--color-bg-dark);
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .footer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-nav {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
-           <noscript>
-        <div id="noscript-alert">
-            <strong>WARNING:</strong> JavaScript is disabled. This website requires JavaScript to function properly.
-        </div>
-    </noscript>
-<body class="min-h-screen">
-
-      <div id="main-content" class="hidden_main">
-    <div id="globe-bg" class="globe-bg"></div>
-    
-    <nav class="border-b border-gray-800 bg-gray-900/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i data-feather="terminal" class="text-blue-400 h-6 w-6"></i>
-                        <span class="ml-2 text-xl font-bold gradient-text">Debug Logger Pro</span>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#features" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Features</a>
-                        <a href="#installation" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Installation</a>
-                        <a href="#screenshots" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Screenshots</a>
-                        <a href="#changelog" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Changelog</a>
-                        <a href="https://github.com/VolkanSah/Debug-Logger-Pro" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center">
-                            <i data-feather="github" class="mr-2 h-4 w-4"></i> GitHub
-                        </a>
-                    </div>
-                </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button" id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
-                        <i data-feather="menu"></i>
-                    </button>
-                </div>
+<body>
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+                <span class="ml-2 gradient-text">Debug Logger Pro</span>
             </div>
-        </div>
-        
-        <div class="hidden md:hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#features" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Features</a>
-                <a href="#installation" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Installation</a>
-                <a href="#screenshots" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Screenshots</a>
-                <a href="#changelog" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Changelog</a>
-                <a href="https://github.com/VolkanSah/Debug-Logger-Pro" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium flex items-center">
-                    <i data-feather="github" class="mr-2 h-4 w-4"></i> GitHub
+            <nav class="hidden md:flex flex-center gap-4">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#installation" class="nav-link">Installation</a>
+                <a href="#changelog" class="nav-link">Changelog</a>
+                <a href="https://github.com/VolkanSah/Debug-Logger-Pro" target="_blank" class="btn-primary flex-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.83a4 4 0 0 0-.8-2.37c3.1-1.2 6.4-3.9 6.4-8.8A4.93 4.93 0 0 0 20 5.4a4.8 4.8 0 0 0-4.6-3.2A4.93 4.93 0 0 0 10.4 5.4a4.8 4.8 0 0 0-4.6 3.2c0 4.9 3.3 7.6 6.4 8.8a4 4 0 0 0-.8 2.37V22"></path>
+                    </svg>
+                    GitHub
                 </a>
-            </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <div class="relative overflow-hidden">
-        <div class="max-w-7xl mx-auto">
-            <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-                <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 lg:mt-16 lg:px-8 xl:mt-20">
-                    <div class="sm:text-center lg:text-left">
-                        <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl" data-aos="fade-up">
-                            <span class="block">Enhanced Interaction &</span>
-                            <span class="block gradient-text">Debug Logger Pro</span>
-                        </h1>
-                        <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0" data-aos="fade-up" data-aos-delay="100">
-                            The professional WordPress debugging plugin that actually works when you need it most. Lightweight, comprehensive, and built for developers.
-                        </p>
-                        <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start" data-aos="fade-up" data-aos-delay="200">
-                            <div class="rounded-md shadow">
-                                <a href="https://github.com/VolkanSah/Debug-Logger-Pro" target="_blank" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10">
-                                    <i data-feather="download" class="mr-2"></i> Download Now
-                                </a>
-                            </div>
-                            <div class="mt-3 sm:mt-0 sm:ml-3">
-                                <a href="#features" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-300 bg-gray-800 hover:bg-gray-700 md:py-4 md:text-lg md:px-10">
-                                    <i data-feather="eye" class="mr-2"></i> View Features
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        </div>
-    </div>
-
-    <section id="features" class="py-12 sm:py-16 lg:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl" data-aos="fade-up">
-                    <span class="gradient-text">Key Features</span>
-                </h2>
-                <p class="mt-4 max-w-2xl text-xl text-gray-300 mx-auto" data-aos="fade-up" data-aos-delay="100">
-                    Everything you need for professional WordPress debugging
-                </p>
-            </div>
-
-            <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <div class="feature-card bg-gray-800 rounded-lg p-6 transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="200">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-900/50 text-blue-400">
-                        <i data-feather="alert-triangle" class="h-6 w-6"></i>
-                    </div>
-                    <h3 class="mt-4 text-lg font-medium text-white">Fatal Error Detection</h3>
-                    <p class="mt-2 text-base text-gray-300">
-                        Catches PHP fatal errors that crash your site during plugin testing, with shutdown function handler that captures errors other tools miss.
-                    </p>
-                </div>
-
-                <div class="feature-card bg-gray-800 rounded-lg p-6 transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="300">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-900/50 text-purple-400">
-                        <i data-feather="file-text" class="h-6 w-6"></i>
-                    </div>
-                    <h3 class="mt-4 text-lg font-medium text-white">Professional Logging</h3>
-                    <p class="mt-2 text-base text-gray-300">
-                        Real-time WordPress debug integration, combined log views, working copy-to-clipboard functionality, and color-coded error levels.
-                    </p>
-                </div>
-
-                <div class="feature-card bg-gray-800 rounded-lg p-6 transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="400">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-900/50 text-green-400">
-                        <i data-feather="monitor" class="h-6 w-6"></i>
-                    </div>
-                    <h3 class="mt-4 text-lg font-medium text-white">Smart Console</h3>
-                    <p class="mt-2 text-base text-gray-300">
-                        Expandable console appears on both frontend and admin, with auto-refresh controls, tab-based interface, and auto-scroll to latest entries.
-                    </p>
-                </div>
-
-                <div class="feature-card bg-gray-800 rounded-lg p-6 transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="500">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-yellow-900/50 text-yellow-400">
-                        <i data-feather="zap" class="h-6 w-6"></i>
-                    </div>
-                    <h3 class="mt-4 text-lg font-medium text-white">Performance Optimized</h3>
-                    <p class="mt-2 text-base text-gray-300">
-                        File-locking prevents corruption, configurable log size limits, optional AJAX request filtering, and lightweight footprint with no bloat.
-                    </p>
-                </div>
-
-                <div class="feature-card bg-gray-800 rounded-lg p-6 transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="600">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-900/50 text-red-400">
-                        <i data-feather="globe" class="h-6 w-6"></i>
-                    </div>
-                    <h3 class="mt-4 text-lg font-medium text-white">Internationalization Ready</h3>
-                    <p class="mt-2 text-base text-gray-300">
-                        Full WP-i18n integration with .pot and .po file generation support for seamless multi-language compatibility.
-                    </p>
-                </div>
-
-                <div class="feature-card bg-gray-800 rounded-lg p-6 transition-all duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="700">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-900/50 text-indigo-400">
-                        <i data-feather="cpu" class="h-6 w-6"></i>
-                    </div>
-                    <h3 class="mt-4 text-lg font-medium text-white">AI Enhanced</h3>
-                    <p class="mt-2 text-base text-gray-300">
-                        Significantly improved with AI assistance for code review, security improvements, and modern JavaScript API usage.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="installation" class="py-12 sm:py-16 lg:py-20 bg-gray-900/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
-                <div class="lg:col-span-6" data-aos="fade-right">
-                    <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
-                        <span class="gradient-text">Installation</span>
-                    </h2>
-                    <p class="mt-3 text-lg text-gray-300">
-                        Get started with Debug Logger Pro in just a few simple steps.
-                    </p>
-                    
-                    <div class="mt-8">
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-blue-600 text-white">
-                                <span class="text-lg font-bold">1</span>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg leading-6 font-medium text-white">Download the plugin</h3>
-                                <p class="mt-2 text-base text-gray-300">
-                                    Clone or download from GitHub repository
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 flex items-start">
-                            <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-blue-600 text-white">
-                                <span class="text-lg font-bold">2</span>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg leading-6 font-medium text-white">Upload to WordPress</h3>
-                                <p class="mt-2 text-base text-gray-300">
-                                    Upload the <code class="code-font bg-gray-800 px-2 py-1 rounded">enhanced-interaction-debug-logger</code> directory to your <code class="code-font bg-gray-800 px-2 py-1 rounded">/wp-content/plugins/</code> directory
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 flex items-start">
-                            <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-blue-600 text-white">
-                                <span class="text-lg font-bold">3</span>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg leading-6 font-medium text-white">Activate the plugin</h3>
-                                <p class="mt-2 text-base text-gray-300">
-                                    Activate through the 'Plugins' menu in WordPress
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-6 flex items-start">
-                            <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-blue-600 text-white">
-                                <span class="text-lg font-bold">4</span>
-                            </div>
-                            <div class="ml-4">
-                                <h3 class="text-lg leading-6 font-medium text-white">Configure settings</h3>
-                                <p class="mt-2 text-base text-gray-300">
-                                    Go to <code class="code-font bg-gray-800 px-2 py-1 rounded">Tools > Debug Logger Pro</code> to configure the settings
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-12 lg:mt-0 lg:col-span-6" data-aos="fade-left">
-                    <div class="console-effect rounded-lg overflow-hidden">
-                        <div class="bg-gray-900 px-4 py-3 flex items-center border-b border-gray-800">
-                            <div class="flex space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            </div>
-                            <div class="ml-4 flex space-x-4">
-                                <button class="text-xs font-medium text-gray-300 hover:text-white tab-active">Live Logs</button>
-                                <button class="text-xs font-medium text-gray-300 hover:text-white">WP Debug</button>
-                                <button class="text-xs font-medium text-gray-300 hover:text-white">Combined</button>
-                            </div>
-                            <div class="ml-auto flex items-center space-x-3">
-                                <button class="text-gray-400 hover:text-white">
-                                    <i data-feather="refresh-cw" class="h-4 w-4"></i>
-                                </button>
-                                <button class="text-gray-400 hover:text-white">
-                                    <i data-feather="copy" class="h-4 w-4"></i>
-                                </button>
-                                <button class="text-gray-400 hover:text-white">
-                                    <i data-feather="trash-2" class="h-4 w-4"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="p-4 font-mono text-sm">
-                            <div class="text-green-400">[2023-11-15 14:30:22] INFO: Plugin activated successfully</div>
-                            <div class="text-yellow-400 mt-1">[2023-11-15 14:30:25] WARNING: Undefined variable $test</div>
-                            <div class="text-red-400 mt-1">[2023-11-15 14:30:28] FATAL: Uncaught Error: Call to undefined function test_function()</div>
-                            <div class="text-blue-400 mt-1">[2023-11-15 14:30:30] DEBUG: Loading admin assets</div>
-                            <div class="text-gray-400 mt-1">[2023-11-15 14:30:32] NOTICE: WP_DEBUG is not enabled</div>
-                            <div class="text-green-400 mt-1">[2023-11-15 14:30:35] INFO: Settings saved</div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 bg-gray-900 rounded-lg p-4">
-                        <h4 class="text-sm font-medium text-white mb-2">Enable WP_DEBUG in wp-config.php:</h4>
-                        <div class="relative">
-                            <pre class="code-font bg-gray-800 text-gray-300 p-4 rounded-lg overflow-x-auto text-sm"><code>define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);</code></pre>
-                            <button class="copy-btn absolute top-2 right-2 bg-blue-900 text-blue-200 px-2 py-1 rounded text-xs flex items-center">
-                                <i data-feather="copy" class="h-3 w-3 mr-1"></i> Copy
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="screenshots" class="py-12 sm:py-16 lg:py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl" data-aos="fade-up">
-                    <span class="gradient-text">Screenshots</span>
-                </h2>
-                <p class="mt-4 max-w-2xl text-xl text-gray-300 mx-auto" data-aos="fade-up" data-aos-delay="100">
-                    See the plugin in action
-                </p>
-            </div>
-            
-            <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <div class="overflow-hidden rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="200">
-                    <div class="bg-gray-800 p-4">
-                        <h3 class="text-lg font-medium text-white">Admin Interface</h3>
-                    </div>
-                    <img class="w-full lazy-img cursor-pointer" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9' fill='%231f2937'%3E%3C/svg%3E" data-src="admin.jpg" alt="Admin Interface">
-                </div>
-                
-                <div class="overflow-hidden rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="300">
-                    <div class="bg-gray-800 p-4">
-                        <h3 class="text-lg font-medium text-white">Console View</h3>
-                    </div>
-                    <img class="w-full lazy-img cursor-pointer" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9' fill='%231f2937'%3E%3C/svg%3E" data-src="console.jpg" alt="Console View">
-                </div>
-                
-                <div class="overflow-hidden rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="400">
-                    <div class="bg-gray-800 p-4">
-                        <h3 class="text-lg font-medium text-white">Error Detection</h3>
-                    </div>
-                    <img class="w-full lazy-img cursor-pointer" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9' fill='%231f2937'%3E%3C/svg%3E" data-src="error.jpg" alt="Error Detection">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="image-modal" class="modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="relative max-w-5xl max-h-full">
-            <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 transition-transform transform hover:scale-110">
-                <i data-feather="x" class="w-8 h-8"></i>
-            </button>
-            <img id="modal-image" src="" alt="Full-screen image" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl">
-        </div>
-    </div>
-
-    <section id="changelog" class="py-12 sm:py-16 lg:py-20 bg-gray-900/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-extrabold text-white sm:text-4xl" data-aos="fade-up">
-                    <span class="gradient-text">Changelog</span>
-                </h2>
-                <p class="mt-4 max-w-2xl text-xl text-gray-300 mx-auto" data-aos="fade-up" data-aos-delay="100">
-                    Recent updates and improvements
-                </p>
-            </div>
-            
-            <div class="mt-12 space-y-8">
-                <div class="bg-gray-800 rounded-lg overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-                    <div class="bg-blue-900 px-4 py-3">
-                        <h3 class="text-lg font-bold text-white">Version 3.1 - The Collaborative Polish</h3>
-                    </div>
-                    <div class="p-6">
-                        <ul class="list-disc pl-5 space-y-2 text-gray-300">
-                            <li><span class="font-bold text-blue-300">NEW:</span> Full internationalization (i18n) support added with .pot and .po file generation capability.</li>
-                            <li><span class="font-bold text-blue-300">IMPROVED:</span> Adjusted the default WordPress debug log filename to debug-log.txt for consistency with some hosting environments.</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="bg-gray-800 rounded-lg overflow-hidden" data-aos="fade-up" data-aos-delay="300">
-                    <div class="bg-purple-900 px-4 py-3">
-                        <h3 class="text-lg font-bold text-white">Version 3.0 - AI Enhanced Edition</h3>
-                    </div>
-                    <div class="p-6">
-                        <ul class="list-disc pl-5 space-y-2 text-gray-300">
-                            <li><span class="font-bold text-purple-300">MAJOR:</span> Complete rewrite with Claude 4 Sonnet assistance</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Fatal error detection and logging</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> WordPress debug-log.txt integration</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Working copy-to-clipboard functionality</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Combined log view with real-time updates</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Color-coded error levels (Fatal/Warning/Notice)</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Tab-based admin interface</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Auto-scroll and pause/resume controls</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> File-locking for concurrent request safety</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Configurable log size limits</li>
-                            <li><span class="font-bold text-purple-300">NEW:</span> Professional error handling and user feedback</li>
-                            <li><span class="font-bold text-purple-300">FIXED:</span> Double hook registration bug from v2.5</li>
-                            <li><span class="font-bold text-purple-300">FIXED:</span> XSS vulnerability in log display</li>
-                            <li><span class="font-bold text-purple-300">FIXED:</span> Race condition in file writing</li>
-                            <li><span class="font-bold text-purple-300">FIXED:</span> Missing error handling for file operations</li>
-                            <li><span class="font-bold text-purple-300">IMPROVED:</span> OOP architecture with singleton pattern</li>
-                            <li><span class="font-bold text-purple-300">IMPROVED:</span> Better performance and memory usage</li>
-                            <li><span class="font-bold text-purple-300">IMPROVED:</span> Enhanced security and validation</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="bg-gray-800 rounded-lg overflow-hidden" data-aos="fade-up" data-aos-delay="400">
-                    <div class="bg-indigo-900 px-4 py-3">
-                        <h3 class="text-lg font-bold text-white">Version 2.5 (Previous)</h3>
-                    </div>
-                    <div class="p-6">
-                        <ul class="list-disc pl-5 space-y-2 text-gray-300">
-                            <li><span class="font-bold text-indigo-300">NEW:</span> Reverse log order to show the latest entries at the top</li>
-                            <li><span class="font-bold text-indigo-300">NEW:</span> Filter out unnecessary AJAX logs for cleaner data</li>
-                            <li><span class="font-bold text-indigo-300">Improvement:</span> Enhanced UI for better accessibility and user experience</li>
-                            <li><span class="font-bold text-indigo-300">Improvement:</span> Added "Clear Log" button directly in the console</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-900/50 to-purple-900/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-extrabold text-white sm:text-4xl" data-aos="fade-up">
-                Ready to supercharge your WordPress debugging?
-            </h2>
-            <p class="mt-4 max-w-2xl text-xl text-gray-300 mx-auto" data-aos="fade-up" data-aos-delay="100">
-                Finally, a WordPress debug logger that doesn't suck!
+    <main>
+        <section class="hero container max-w-85-percent">
+            <h1>
+                <span class="block">Enhanced Interaction &</span>
+                <span class="block gradient-text">Debug Logger Pro</span>
+            </h1>
+            <p>
+                The professional WordPress debugging plugin that actually works when you need it most. Lightweight, comprehensive, and built for developers.
             </p>
-            <div class="mt-8" data-aos="fade-up" data-aos-delay="200">
-                <a href="https://github.com/VolkanSah/Debug-Logger-Pro" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-8">
-                    <i data-feather="download" class="mr-2"></i> Download Now
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+                <a href="https://github.com/VolkanSah/Debug-Logger-Pro" target="_blank" class="btn-primary flex-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Now
+                </a>
+                <a href="#features" class="btn-secondary flex-center gap-2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    View Features
                 </a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="bg-gray-900">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-                <div class="space-y-8 xl:col-span-1">
-                    <div class="flex items-center">
-                        <i data-feather="terminal" class="text-blue-400 h-6 w-6"></i>
-                        <span class="ml-2 text-xl font-bold gradient-text">Debug Logger Pro</span>
+        <section id="features" class="section">
+            <div class="container max-w-85-percent">
+                <h2 class="section-title gradient-text">Key Features</h2>
+                <p class="section-subtitle">Everything you need for professional WordPress debugging</p>
+
+                <div class="grid-3-cols">
+                    <div class="card">
+                        <div class="icon-wrapper bg-red">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12" y2="17"></line>
+                            </svg>
+                        </div>
+                        <h3>Fatal Error Detection</h3>
+                        <p>Catches PHP fatal errors that crash your site during plugin testing, with shutdown function handler that captures errors other tools miss.</p>
                     </div>
-                    <p class="text-gray-300 text-base">
-                        Enhanced Interaction & Debug Logger Pro - A professional WordPress debugging plugin built for developers.
-                    </p>
-                    <div class="flex space-x-6">
-                        <a href="https://github.com/VolkanSah/Debug-Logger-Pro" target="_blank" class="text-gray-400 hover:text-white">
-                            <i data-feather="github" class="h-6 w-6"></i>
-                        </a>
+                    <div class="card">
+                        <div class="icon-wrapper bg-purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <line x1="10" y1="9" x2="8" y2="9"></line>
+                            </svg>
+                        </div>
+                        <h3>Professional Logging</h3>
+                        <p>Real-time WordPress debug integration, combined log views, working copy-to-clipboard functionality, and color-coded error levels.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-wrapper bg-green">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                        <h3>Smart Console</h3>
+                        <p>Expandable console appears on both frontend and admin, with auto-refresh controls, tab-based interface, and auto-scroll to latest entries.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-wrapper bg-yellow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                        </div>
+                        <h3>Performance Optimized</h3>
+                        <p>File-locking prevents corruption, configurable log size limits, optional AJAX request filtering, and lightweight footprint with no bloat.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-wrapper bg-blue">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"></path>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                <path d="M2 12h20"></path>
+                            </svg>
+                        </div>
+                        <h3>Internationalization Ready</h3>
+                        <p>Full WP-i18n integration with .pot and .po file generation support for seamless multi-language compatibility.</p>
+                    </div>
+                    <div class="card">
+                        <div class="icon-wrapper bg-indigo">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
+                                <path d="M6 8h.01"></path>
+                                <path d="M10 8h.01"></path>
+                                <path d="M14 8h.01"></path>
+                            </svg>
+                        </div>
+                        <h3>AI Enhanced</h3>
+                        <p>Significantly improved with AI assistance for code review, security improvements, and modern JavaScript API usage.</p>
                     </div>
                 </div>
-                <div class="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
-                        <div>
-                            <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">
-                                Resources
-                            </h3>
-                            <ul class="mt-4 space-y-4">
-                                <li>
-                                    <a href="#features" class="text-base text-gray-400 hover:text-white">
-                                        Features
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#installation" class="text-base text-gray-400 hover:text-white">
-                                        Installation
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#screenshots" class="text-base text-gray-400 hover:text-white">
-                                        Screenshots
-                                    </a>
-                                </li>
+            </div>
+        </section>
+
+        <section id="installation" class="section" style="background-color: rgba(15, 23, 42, 0.5);">
+            <div class="container max-w-85-percent">
+                <div style="display: grid; gap: 2rem; align-items: center;">
+                    <h2 class="section-title gradient-text">Installation</h2>
+                    <p class="section-subtitle">Get started with Debug Logger Pro in just a few simple steps.</p>
+                    <div class="console-mockup">
+                        <div class="console-header">
+                            <div class="console-buttons">
+                                <div class="console-button" style="background-color: var(--color-red);"></div>
+                                <div class="console-button" style="background-color: var(--color-yellow);"></div>
+                                <div class="console-button" style="background-color: var(--color-green);"></div>
+                            </div>
+                            <div class="console-tabs">
+                                <a href="#" class="console-tab active">Live Logs</a>
+                                <a href="#" class="console-tab">WP Debug</a>
+                                <a href="#" class="console-tab">Combined</a>
+                            </div>
+                            <div class="console-tools">
+                                <button title="Refresh">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                        <path d="M3.5 15a8 8 0 1 0 0-11.5"></path>
+                                    </svg>
+                                </button>
+                                <button title="Copy">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                </button>
+                                <button title="Clear">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="console-log code-font">
+                            <div class="log-line log-info">[2023-11-15 14:30:22] INFO: Plugin activated successfully</div>
+                            <div class="log-line log-warn">[2023-11-15 14:30:25] WARNING: Undefined variable $test</div>
+                            <div class="log-line log-error">[2023-11-15 14:30:28] FATAL: Uncaught Error: Call to undefined function test_function()</div>
+                            <div class="log-line log-debug">[2023-11-15 14:30:30] DEBUG: Loading admin assets</div>
+                            <div class="log-line log-notice">[2023-11-15 14:30:32] NOTICE: WP_DEBUG is not enabled</div>
+                            <div class="log-line log-info">[2023-11-15 14:30:35] INFO: Settings saved</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="changelog" class="section">
+            <div class="container max-w-85-percent">
+                <h2 class="section-title gradient-text">Changelog</h2>
+                <p class="section-subtitle">Recent updates and improvements</p>
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="card">
+                        <div style="background-color: rgba(59, 130, 246, 0.2); padding: 0.75rem 1rem; border-radius: 0.5rem 0.5rem 0 0;">
+                            <h3 style="font-size: 1.125rem; font-weight: bold; color: var(--color-primary); margin: 0;">Version 3.1 - The Collaborative Polish</h3>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <ul style="list-style: disc; padding-left: 1.5rem; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                                <li><span style="font-weight: bold; color: var(--color-blue);">NEW:</span> Full internationalization (i18n) support added with .pot and .po file generation capability.</li>
+                                <li><span style="font-weight: bold; color: var(--color-blue);">IMPROVED:</span> Adjusted the default WordPress debug log filename to debug-log.txt for consistency with some hosting environments.</li>
                             </ul>
                         </div>
-                        <div class="mt-12 md:mt-0">
-                            <h3 class="text-sm font-semibold text-gray-300 tracking-wider uppercase">
-                                About
-                            </h3>
-                            <ul class="mt-4 space-y-4">
-                                <li>
-                                    <a href="#changelog" class="text-base text-gray-400 hover:text-white">
-                                        Changelog
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://github.com/VolkanSah/Debug-Logger-Pro/blob/main/LICENSE" target="_blank" class="text-base text-gray-400 hover:text-white">
-                                        License
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://github.com/VolkanSah/Debug-Logger-Pro/issues" target="_blank" class="text-base text-gray-400 hover:text-white">
-                                        Support
-                                    </a>
-                                </li>
+                    </div>
+                    <div class="card">
+                        <div style="background-color: rgba(139, 92, 246, 0.2); padding: 0.75rem 1rem; border-radius: 0.5rem 0.5rem 0 0;">
+                            <h3 style="font-size: 1.125rem; font-weight: bold; color: var(--color-purple); margin: 0;">Version 3.0 - AI Enhanced Edition</h3>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <ul style="list-style: disc; padding-left: 1.5rem; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                                <li><span style="font-weight: bold; color: var(--color-purple);">MAJOR:</span> Complete rewrite with Claude 4 Sonnet assistance</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Fatal error detection and logging</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> WordPress debug-log.txt integration</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Working copy-to-clipboard functionality</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Combined log view with real-time updates</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Color-coded error levels (Fatal/Warning/Notice)</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Tab-based admin interface</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Auto-scroll and pause/resume controls</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> File-locking for concurrent request safety</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Configurable log size limits</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">NEW:</span> Professional error handling and user feedback</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">FIXED:</span> Double hook registration bug from v2.5</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">FIXED:</span> XSS vulnerability in log display</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">FIXED:</span> Race condition in file writing</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">FIXED:</span> Missing error handling for file operations</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">IMPROVED:</span> OOP architecture with singleton pattern</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">IMPROVED:</span> Better performance and memory usage</li>
+                                <li><span style="font-weight: bold; color: var(--color-purple);">IMPROVED:</span> Enhanced security and validation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div style="background-color: rgba(99, 102, 241, 0.2); padding: 0.75rem 1rem; border-radius: 0.5rem 0.5rem 0 0;">
+                            <h3 style="font-size: 1.125rem; font-weight: bold; color: var(--color-indigo); margin: 0;">Version 2.5 (Previous)</h3>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <ul style="list-style: disc; padding-left: 1.5rem; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                                <li><span style="font-weight: bold; color: var(--color-indigo);">NEW:</span> Reverse log order to show the latest entries at the top</li>
+                                <li><span style="font-weight: bold; color: var(--color-indigo);">NEW:</span> Filter out unnecessary AJAX logs for cleaner data</li>
+                                <li><span style="font-weight: bold; color: var(--color-indigo);">Improvement:</span> Enhanced UI for better accessibility and user experience</li>
+                                <li><span style="font-weight: bold; color: var(--color-indigo);">Improvement:</span> Added "Clear Log" button directly in the console</li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-12 border-t border-gray-800 pt-8">
-                <p class="text-base text-gray-400 text-center">
-                    &copy; 2019-2025 Enhanced Interaction & Debug Logger Pro. By Volkan Kücükbudak
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <div class="flex-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400">
+                        <polyline points="4 17 10 11 4 5"></polyline>
+                        <line x1="12" y1="19" x2="20" y2="19"></line>
+                    </svg>
+                    <span class="ml-2 gradient-text logo">Debug Logger Pro</span>
+                </div>
+                <p style="color: var(--color-text-light);">
+                    Enhanced Interaction & Debug Logger Pro - A professional WordPress debugging plugin built for developers.
                 </p>
             </div>
+        </div>
+        <div class="container" style="margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem; color: var(--color-text-light);">
+            <p>&copy; 2023 Debug Logger Pro. All rights reserved.</p>
         </div>
     </footer>
- </div> 
-    <script>
-
-         // Show content only if JavaScript is enabled
-        document.getElementById('main-content').classList.remove('hidden_main');
-        // Initialize animations
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
-        });
-        
-        // Initialize feather icons
-        feather.replace();
-        
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-        
-        // Vanta.js globe background
-        VANTA.GLOBE({
-            el: "#globe-bg",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x3b82f6,
-            backgroundColor: 0x0f172a,
-            size: 0.8
-        });
-        
-        // Copy button functionality
-        document.querySelectorAll('.copy-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const codeBlock = this.parentElement.querySelector('code');
-                const textToCopy = codeBlock.textContent;
-                
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '<i data-feather="check" class="h-3 w-3 mr-1"></i> Copied';
-                    feather.replace();
-                    
-                    setTimeout(() => {
-                        this.innerHTML = originalText;
-                        feather.replace();
-                    }, 2000);
-                });
-            });
-        });
-
-        // Lazy load images with Intersection Observer
-        const lazyImages = document.querySelectorAll('.lazy-img');
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const src = img.getAttribute('data-src');
-                    img.src = src;
-                    img.onload = () => {
-                        img.classList.add('loaded');
-                    };
-                    observer.unobserve(img);
-                }
-            });
-        }, observerOptions);
-
-        lazyImages.forEach(img => {
-            imageObserver.observe(img);
-        });
-
-        // Image modal functionality
-        const modal = document.getElementById('image-modal');
-        const modalImg = document.getElementById('modal-image');
-        const closeModalBtn = document.getElementById('close-modal');
-
-        document.querySelectorAll('.lazy-img').forEach(img => {
-            img.addEventListener('click', () => {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                modalImg.src = img.src;
-            });
-        });
-
-        closeModalBtn.addEventListener('click', () => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target.id === 'image-modal') {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        });
-
-    </script>
 </body>
 </html>

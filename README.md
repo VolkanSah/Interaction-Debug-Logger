@@ -1,4 +1,6 @@
-# Enhanced Interaction & Debug Logger Pro
+
+
+Version 2 Dev, completly new core & functions
 
 
 ![License](https://img.shields.io/badge/license-DBAD-blue.svg)

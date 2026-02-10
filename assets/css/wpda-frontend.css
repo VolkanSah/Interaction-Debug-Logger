@@ -1,0 +1,104 @@
+/**
+ * Plugin Name: WP Debug Assistant
+ * Description: A self-contained tool to provide essential debugging information within the WordPress admin area.
+ * Version:     2.0.0
+ * Author:      Volkan Sah
+ * Author URI:  https://github.com/VolkanSah
+ * License:     ESOL
+ * License URI: https://github.com/ESOL-License
+ * Text Domain: wp-debug-assistant
+ * Domain Path: /languages
+ */
+
+#wpda-debug-bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: #23282d; /* Dark WordPress admin bar color */
+	color: #eee;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 13px;
+	line-height: 1;
+	padding: 8px 15px;
+	box-sizing: border-box;
+	z-index: 99999; /* Ensure it's above most other elements */
+	display: flex;
+	justify-content: center; /* Center content horizontally */
+	align-items: center;
+	box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
+}
+
+#wpda-debug-bar .wpda-debug-bar-content {
+	display: flex;
+	gap: 20px; /* Space between items */
+	align-items: center;
+	max-width: 1200px; /* Limit width for better readability on very wide screens */
+	width: 100%;
+	justify-content: flex-start; /* Align items to the start within the content wrapper */
+}
+
+#wpda-debug-bar .wpda-item {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+#wpda-debug-bar .wpda-item strong {
+	color: #fff;
+	font-weight: 600;
+}
+
+#wpda-debug-bar .wpda-admin-link a {
+	color: #00a0d2; /* Standard WordPress blue link */
+	text-decoration: none;
+	padding: 3px 8px;
+	border: 1px solid #00a0d2;
+	border-radius: 3px;
+	transition: all 0.2s ease-in-out;
+}
+
+#wpda-debug-bar .wpda-admin-link a:hover {
+	background-color: #00a0d2;
+	color: #fff;
+}
+
+/* Adjust body padding to prevent content from being hidden behind the bar */
+body {
+	padding-bottom: 35px !important; /* Height of the debug bar + a little extra */
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+	#wpda-debug-bar {
+		padding: 5px 10px;
+		font-size: 12px;
+		line-height: 1.3;
+	}
+
+	#wpda-debug-bar .wpda-debug-bar-content {
+		flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+		gap: 10px 15px; /* Adjust gap for wrapped items */
+		justify-content: center; /* Center items when wrapped */
+	}
+
+	#wpda-debug-bar .wpda-admin-link a {
+		padding: 2px 6px;
+		font-size: 12px;
+	}
+
+	body {
+		padding-bottom: 60px !important; /* Increase padding for wrapped bar */
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#wpda-debug-bar .wpda-debug-bar-content {
+		flex-direction: column; /* Stack items vertically on very small screens */
+		align-items: flex-start; /* Align stacked items to the left */
+		gap: 5px;
+	}
+
+	body {
+		padding-bottom: 100px !important; /* Further increase padding for stacked bar */
+	}
+}

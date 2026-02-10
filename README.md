@@ -2,6 +2,8 @@
 
 Version 2 Dev, completly new core & functions
 
+⚠️ DO NOT USE! I am crafting!
+
 
 ![License](https://img.shields.io/badge/license-DBAD-blue.svg)
 ![Version](https://img.shields.io/badge/version-3.0-green.svg)
